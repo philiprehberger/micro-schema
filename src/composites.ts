@@ -1,0 +1,155 @@
+import { Schema } from './base.js';
+import type { ValidationIssue } from './errors.js';
+
+type ObjectShape = Record<string, Schema<unknown>>;
+type InferShape<T extends ObjectShape> = {
+  [K in keyof T]: T[K] extends Schema<infer U> ? U : never;
+};
+
+export class ObjectSchema<T extends ObjectShape> extends Schema<InferShape<T>> {
+  constructor(private readonly _shape: T) {
+    super();
+  }
+
+  _parse(input: unknown, path: (string | number)[]): { value: InferShape<T>; issues: ValidationIssue[] } {
+    if (typeof input !== 'object' || input === null || Array.isArray(input)) {
+      return { value: {} as InferShape<T>, issues: [{ path, message: 'Expected object' }] };
+    }
+
+    const result: Record<string, unknown> = {};
+    const issues: ValidationIssue[] = [];
+    const obj = input as Record<string, unknown>;
+
+    for (const [key, schema] of Object.entries(this._shape)) {
+      const fieldResult = schema.safeParse(obj[key]);
+      if (fieldResult.success) {
+        result[key] = fieldResult.data;
+      } else {
+        for (const issue of fieldResult.errors) {
+          issues.push({
+            path: [...path, key, ...issue.path],
+            message: issue.message,
+          });
+        }
+      }
+    }
+
+    return { value: result as InferShape<T>, issues };
+  }
+}
+
+export class ArraySchema<T> extends Schema<T[]> {
+  private _min?: number;
+  private _max?: number;
+
+  constructor(private readonly _itemSchema: Schema<T>) {
+    super();
+  }
+
+  _parse(input: unknown, path: (string | number)[]): { value: T[]; issues: ValidationIssue[] } {
+    if (!Array.isArray(input)) {
+      return { value: [], issues: [{ path, message: 'Expected array' }] };
+    }
+
+    const issues: ValidationIssue[] = [];
+    if (this._min !== undefined && input.length < this._min) {
+      issues.push({ path, message: `Array must have at least ${this._min} items` });
+    }
+    if (this._max !== undefined && input.length > this._max) {
+      issues.push({ path, message: `Array must have at most ${this._max} items` });
+    }
+
+    const result: T[] = [];
+    for (let i = 0; i < input.length; i++) {
+      const itemResult = this._itemSchema.safeParse(input[i]);
+      if (itemResult.success) {
+        result.push(itemResult.data);
+      } else {
+        for (const issue of itemResult.errors) {
+          issues.push({
+            path: [...path, i, ...issue.path],
+            message: issue.message,
+          });
+        }
+      }
+    }
+
+    return { value: result, issues };
+  }
+
+  min(n: number): ArraySchema<T> { const c = this._clone() as ArraySchema<T>; c._min = n; return c; }
+  max(n: number): ArraySchema<T> { const c = this._clone() as ArraySchema<T>; c._max = n; return c; }
+}
+
+export class UnionSchema<T extends Schema<unknown>[]> extends Schema<
+  T[number] extends Schema<infer U> ? U : never
+> {
+  constructor(private readonly _schemas: T) {
+    super();
+  }
+
+  _parse(input: unknown, path: (string | number)[]): {
+    value: T[number] extends Schema<infer U> ? U : never;
+    issues: ValidationIssue[];
+  } {
+    const allIssues: ValidationIssue[] = [];
+
+    for (const schema of this._schemas) {
+      const result = schema.safeParse(input);
+      if (result.success) {
+        return { value: result.data as any, issues: [] };
+      }
+      allIssues.push(...result.errors);
+    }
+
+    return {
+      value: undefined as any,
+      issues: [{ path, message: 'Value does not match any type in union' }],
+    };
+  }
+}
+
+export class RecordSchema<K extends Schema<string>, V extends Schema<unknown>> extends Schema<
+  Record<string, V extends Schema<infer U> ? U : never>
+> {
+  constructor(
+    private readonly _keySchema: K,
+    private readonly _valueSchema: V,
+  ) {
+    super();
+  }
+
+  _parse(input: unknown, path: (string | number)[]): {
+    value: Record<string, V extends Schema<infer U> ? U : never>;
+    issues: ValidationIssue[];
+  } {
+    if (typeof input !== 'object' || input === null || Array.isArray(input)) {
+      return { value: {} as any, issues: [{ path, message: 'Expected object' }] };
+    }
+
+    const result: Record<string, unknown> = {};
+    const issues: ValidationIssue[] = [];
+    const obj = input as Record<string, unknown>;
+
+    for (const [key, value] of Object.entries(obj)) {
+      const keyResult = this._keySchema.safeParse(key);
+      if (!keyResult.success) {
+        for (const issue of keyResult.errors) {
+          issues.push({ path: [...path, key], message: `Invalid key: ${issue.message}` });
+        }
+        continue;
+      }
+
+      const valueResult = this._valueSchema.safeParse(value);
+      if (valueResult.success) {
+        result[key] = valueResult.data;
+      } else {
+        for (const issue of valueResult.errors) {
+          issues.push({ path: [...path, key, ...issue.path], message: issue.message });
+        }
+      }
+    }
+
+    return { value: result as any, issues };
+  }
+}
