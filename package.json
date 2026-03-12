@@ -1,5 +1,5 @@
 {
-  "name": "@philiprehberger/micro-schema",
+  "name": "@philiprehberger/ts-micro-schema",
   "version": "0.2.0",
   "description": "Lightweight schema validation library with Zod-like API in under 3KB",
   "type": "module",
@@ -43,11 +43,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/philiprehberger/micro-schema.git"
+    "url": "git+https://github.com/philiprehberger/ts-micro-schema.git"
   },
-  "homepage": "https://github.com/philiprehberger/micro-schema#readme",
+  "homepage": "https://github.com/philiprehberger/ts-micro-schema#readme",
   "bugs": {
-    "url": "https://github.com/philiprehberger/micro-schema/issues"
+    "url": "https://github.com/philiprehberger/ts-micro-schema/issues"
   },
   "author": "Philip Rehberger",
   "engines": {

@@ -1,11 +1,11 @@
-# @philiprehberger/micro-schema
+# @philiprehberger/ts-micro-schema
 
 Lightweight schema validation library with Zod-like API in under 3KB.
 
 ## Installation
 
 ```bash
-npm install @philiprehberger/micro-schema
+npm install @philiprehberger/ts-micro-schema
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install @philiprehberger/micro-schema
 ### Define a Schema
 
 ```ts
-import { s, type Infer } from '@philiprehberger/micro-schema';
+import { s, type Infer } from '@philiprehberger/ts-micro-schema';
 
 const UserSchema = s.object({
   name: s.string().min(1).max(100),
@@ -90,7 +90,7 @@ const result = schema.safeParse({ user: { email: 'bad' } });
 ### Type Inference
 
 ```ts
-import { type Infer } from '@philiprehberger/micro-schema';
+import { type Infer } from '@philiprehberger/ts-micro-schema';
 
 const Schema = s.object({
   name: s.string(),
