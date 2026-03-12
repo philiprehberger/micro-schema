@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Update repository URLs to new ts-prefixed GitHub repo
+
 ## 0.2.0
 
 - Add comprehensive test suite (45 tests covering all schema types, modifiers, composites, error paths)
