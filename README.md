@@ -102,6 +102,48 @@ type MyType = Infer<typeof Schema>;
 // { name: string; tags: string[]; status: 'active' | 'inactive' }
 ```
 
+## API Reference
+
+### Schema Builder (`s`)
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `s.string()` | `StringSchema` | String with `.min()` `.max()` `.email()` `.url()` `.uuid()` `.regex()` `.trim()` |
+| `s.number()` | `NumberSchema` | Number with `.min()` `.max()` `.int()` `.positive()` `.negative()` |
+| `s.boolean()` | `BooleanSchema` | Boolean. |
+| `s.date()` | `DateSchema` | Date (accepts Date, string, or number). |
+| `s.literal(value)` | `LiteralSchema` | Exact value match. |
+| `s.enum(values)` | `EnumSchema` | One of specified string values. |
+| `s.object(shape)` | `ObjectSchema` | Object with typed fields. |
+| `s.array(schema)` | `ArraySchema` | Array with `.min()` `.max()`. |
+| `s.union(schemas)` | `UnionSchema` | First matching schema wins. |
+| `s.record(valueSchema)` | `RecordSchema` | `Record<string, T>`. |
+
+### Schema Methods (all types)
+
+| Method | Description |
+|--------|-------------|
+| `.parse(input)` | Returns validated value or throws `ValidationError`. |
+| `.safeParse(input)` | Returns `{ success: true, data }` or `{ success: false, errors }`. |
+| `.optional()` | Allows `undefined`. |
+| `.nullable()` | Allows `null`. |
+| `.default(value)` | Use default when `undefined`. |
+| `.transform(fn)` | Transform the output value. |
+| `.refine(check, message)` | Custom validation. |
+
+### `ValidationError`
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `issues` | `ValidationIssue[]` | Array of `{ path: (string \| number)[], message: string }`. |
+
+### `Infer<T>`
+
+TypeScript utility type to extract the output type from any schema:
+```ts
+type User = Infer<typeof UserSchema>;
+```
+
 ## License
 
 MIT

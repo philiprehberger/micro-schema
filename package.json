@@ -1,6 +1,6 @@
 {
   "name": "@philiprehberger/micro-schema",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Lightweight schema validation library with Zod-like API in under 3KB",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -25,7 +25,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "node --test src/__tests__/index.test.mjs"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
