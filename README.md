@@ -56,10 +56,12 @@ s.enum(['a', 'b', 'c'])
 #### Composites
 
 ```ts
-s.object({ key: s.string() })   // object with shape
-s.array(s.number())             // array, with .min() .max()
-s.union([s.string(), s.number()])
-s.record(s.number())            // Record<string, number>
+s.object({ key: s.string() })           // object with shape
+s.object({ key: s.string() }).strict()   // reject unknown keys
+s.array(s.number())                      // array, with .min() .max()
+s.tuple([s.string(), s.number()])        // fixed-length typed array
+s.union([s.string(), s.number()])        // first matching schema wins (detailed errors on failure)
+s.record(s.number())                     // Record<string, number>
 ```
 
 ### Modifiers
@@ -116,7 +118,8 @@ type MyType = Infer<typeof Schema>;
 | `s.enum(values)` | `EnumSchema` | One of specified string values. |
 | `s.object(shape)` | `ObjectSchema` | Object with typed fields. |
 | `s.array(schema)` | `ArraySchema` | Array with `.min()` `.max()`. |
-| `s.union(schemas)` | `UnionSchema` | First matching schema wins. |
+| `s.tuple(schemas)` | `TupleSchema` | Fixed-length array with per-position schemas. |
+| `s.union(schemas)` | `UnionSchema` | First matching schema wins. Detailed errors on failure. |
 | `s.record(valueSchema)` | `RecordSchema` | `Record<string, T>`. |
 
 ### Schema Methods (all types)

@@ -1,5 +1,5 @@
 import { StringSchema, NumberSchema, BooleanSchema, DateSchema, LiteralSchema, EnumSchema } from './primitives.js';
-import { ObjectSchema, ArraySchema, UnionSchema, RecordSchema } from './composites.js';
+import { ObjectSchema, ArraySchema, TupleSchema, UnionSchema, RecordSchema } from './composites.js';
 import { Schema } from './base.js';
 
 export const s = {
@@ -11,6 +11,7 @@ export const s = {
   enum: <T extends string>(values: readonly T[]) => new EnumSchema(values),
   object: <T extends Record<string, Schema<unknown>>>(shape: T) => new ObjectSchema(shape),
   array: <T>(schema: Schema<T>) => new ArraySchema(schema),
+  tuple: <T extends Schema<unknown>[]>(schemas: [...T]) => new TupleSchema(schemas),
   union: <T extends Schema<unknown>[]>(schemas: [...T]) => new UnionSchema(schemas),
   record: <V extends Schema<unknown>>(valueSchema: V) => new RecordSchema(new StringSchema(), valueSchema),
 };
@@ -21,4 +22,4 @@ export { Schema } from './base.js';
 export { ValidationError } from './errors.js';
 export type { ValidationIssue, SafeParseResult } from './errors.js';
 export { StringSchema, NumberSchema, BooleanSchema, DateSchema, LiteralSchema, EnumSchema } from './primitives.js';
-export { ObjectSchema, ArraySchema, UnionSchema, RecordSchema } from './composites.js';
+export { ObjectSchema, ArraySchema, TupleSchema, UnionSchema, RecordSchema } from './composites.js';

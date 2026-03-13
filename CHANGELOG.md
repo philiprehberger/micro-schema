@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+- Add `.strict()` mode for `ObjectSchema` — rejects objects with unknown keys
+- Add `s.tuple()` schema type for fixed-length typed arrays
+- Improve union error messages — individual schema errors are now included in the validation error
+
 ## 0.2.3
 
 - Fix npm package name references in README

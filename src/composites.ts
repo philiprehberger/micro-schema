@@ -7,8 +7,16 @@ type InferShape<T extends ObjectShape> = {
 };
 
 export class ObjectSchema<T extends ObjectShape> extends Schema<InferShape<T>> {
+  private _isStrict = false;
+
   constructor(private readonly _shape: T) {
     super();
+  }
+
+  strict(): ObjectSchema<T> {
+    const c = this._clone() as ObjectSchema<T>;
+    c._isStrict = true;
+    return c;
   }
 
   _parse(input: unknown, path: (string | number)[]): { value: InferShape<T>; issues: ValidationIssue[] } {
@@ -30,6 +38,15 @@ export class ObjectSchema<T extends ObjectShape> extends Schema<InferShape<T>> {
             path: [...path, key, ...issue.path],
             message: issue.message,
           });
+        }
+      }
+    }
+
+    if (this._isStrict) {
+      const knownKeys = new Set(Object.keys(this._shape));
+      for (const key of Object.keys(obj)) {
+        if (!knownKeys.has(key)) {
+          issues.push({ path: [...path, key], message: `Unknown key "${key}"` });
         }
       }
     }
@@ -81,6 +98,41 @@ export class ArraySchema<T> extends Schema<T[]> {
   max(n: number): ArraySchema<T> { const c = this._clone() as ArraySchema<T>; c._max = n; return c; }
 }
 
+type InferTuple<T extends Schema<unknown>[]> = {
+  [K in keyof T]: T[K] extends Schema<infer U> ? U : never;
+};
+
+export class TupleSchema<T extends Schema<unknown>[]> extends Schema<InferTuple<T>> {
+  constructor(private readonly _schemas: [...T]) {
+    super();
+  }
+
+  _parse(input: unknown, path: (string | number)[]): { value: InferTuple<T>; issues: ValidationIssue[] } {
+    if (!Array.isArray(input)) {
+      return { value: [] as unknown as InferTuple<T>, issues: [{ path, message: 'Expected array' }] };
+    }
+
+    const issues: ValidationIssue[] = [];
+    if (input.length !== this._schemas.length) {
+      issues.push({ path, message: `Expected ${this._schemas.length} items, got ${input.length}` });
+    }
+
+    const result: unknown[] = [];
+    for (let i = 0; i < this._schemas.length; i++) {
+      const itemResult = this._schemas[i].safeParse(input[i]);
+      if (itemResult.success) {
+        result.push(itemResult.data);
+      } else {
+        for (const issue of itemResult.errors) {
+          issues.push({ path: [...path, i, ...issue.path], message: issue.message });
+        }
+      }
+    }
+
+    return { value: result as InferTuple<T>, issues };
+  }
+}
+
 export class UnionSchema<T extends Schema<unknown>[]> extends Schema<
   T[number] extends Schema<infer U> ? U : never
 > {
@@ -92,19 +144,23 @@ export class UnionSchema<T extends Schema<unknown>[]> extends Schema<
     value: T[number] extends Schema<infer U> ? U : never;
     issues: ValidationIssue[];
   } {
-    const allIssues: ValidationIssue[] = [];
+    const allIssues: ValidationIssue[][] = [];
 
     for (const schema of this._schemas) {
       const result = schema.safeParse(input);
       if (result.success) {
         return { value: result.data as any, issues: [] };
       }
-      allIssues.push(...result.errors);
+      allIssues.push(result.errors);
     }
+
+    const details = allIssues
+      .map((issues, i) => `  type ${i}: ${issues.map((iss) => iss.message).join(', ')}`)
+      .join('; ');
 
     return {
       value: undefined as any,
-      issues: [{ path, message: 'Value does not match any type in union' }],
+      issues: [{ path, message: `Value does not match any type in union (${details})` }],
     };
   }
 }
