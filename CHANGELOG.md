@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.3
+
+- Add Development section to README
+- Fix CI badge to reference publish.yml
+
 ## 0.3.0
 - Add `.strict()` mode for `ObjectSchema` — rejects objects with unknown keys
 - Add `s.tuple()` schema type for fixed-length typed arrays

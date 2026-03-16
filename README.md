@@ -1,6 +1,6 @@
 # @philiprehberger/micro-schema
 
-[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml)
+[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/publish.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/micro-schema.svg)](https://www.npmjs.com/package/@philiprehberger/micro-schema)
 [![License](https://img.shields.io/github/license/philiprehberger/micro-schema)](LICENSE)
 
@@ -149,6 +149,15 @@ type MyType = Infer<typeof Schema>;
 TypeScript utility type to extract the output type from any schema:
 ```ts
 type User = Infer<typeof UserSchema>;
+```
+
+
+## Development
+
+```bash
+npm install
+npm run build
+npm test
 ```
 
 ## License
