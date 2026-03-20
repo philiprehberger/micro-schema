@@ -1,6 +1,6 @@
 # @philiprehberger/micro-schema
 
-[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/publish.yml)
+[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/micro-schema.svg)](https://www.npmjs.com/package/@philiprehberger/micro-schema)
 [![License](https://img.shields.io/github/license/philiprehberger/micro-schema)](LICENSE)
 
@@ -108,7 +108,7 @@ type MyType = Infer<typeof Schema>;
 // { name: string; tags: string[]; status: 'active' | 'inactive' }
 ```
 
-## API Reference
+## API
 
 ### Schema Builder (`s`)
 
