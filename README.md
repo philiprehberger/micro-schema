@@ -1,8 +1,8 @@
 # @philiprehberger/micro-schema
 
-[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml)
+[![CI](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/micro-schema.svg)](https://www.npmjs.com/package/@philiprehberger/micro-schema)
-[![License](https://img.shields.io/github/license/philiprehberger/micro-schema)](LICENSE)
+[![License](https://img.shields.io/github/license/philiprehberger/ts-micro-schema)](LICENSE)
 
 Lightweight schema validation library with Zod-like API in under 3KB
 
