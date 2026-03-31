@@ -1,9 +1,8 @@
 # @philiprehberger/micro-schema
 
-[![CI](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml)
+[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/micro-schema.svg)](https://www.npmjs.com/package/@philiprehberger/micro-schema)
-[![License](https://img.shields.io/github/license/philiprehberger/ts-micro-schema)](LICENSE)
-[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/micro-schema)](https://github.com/philiprehberger/micro-schema/commits/main)
 
 Lightweight schema validation library with Zod-like API in under 3KB
 
@@ -152,7 +151,6 @@ TypeScript utility type to extract the output type from any schema:
 type User = Infer<typeof UserSchema>;
 ```
 
-
 ## Development
 
 ```bash
@@ -161,6 +159,24 @@ npm run build
 npm test
 ```
 
+## Support
+
+If you find this project useful:
+
+⭐ [Star the repo](https://github.com/philiprehberger/micro-schema)
+
+🐛 [Report issues](https://github.com/philiprehberger/micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+💡 [Suggest features](https://github.com/philiprehberger/micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
+
+🌐 [All Open Source Projects](https://philiprehberger.com/open-source-packages)
+
+💻 [GitHub Profile](https://github.com/philiprehberger)
+
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/philiprehberger)
+
 ## License
 
-MIT
+[MIT](LICENSE)
