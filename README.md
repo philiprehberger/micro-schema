@@ -1,8 +1,8 @@
 # @philiprehberger/micro-schema
 
-[![CI](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/micro-schema/actions/workflows/ci.yml)
+[![CI](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/ts-micro-schema/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/micro-schema.svg)](https://www.npmjs.com/package/@philiprehberger/micro-schema)
-[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/micro-schema)](https://github.com/philiprehberger/micro-schema/commits/main)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/ts-micro-schema)](https://github.com/philiprehberger/ts-micro-schema/commits/main)
 
 Lightweight schema validation library with Zod-like API in under 3KB
 
@@ -163,11 +163,11 @@ npm test
 
 If you find this project useful:
 
-⭐ [Star the repo](https://github.com/philiprehberger/micro-schema)
+⭐ [Star the repo](https://github.com/philiprehberger/ts-micro-schema)
 
-🐛 [Report issues](https://github.com/philiprehberger/micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+🐛 [Report issues](https://github.com/philiprehberger/ts-micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
-💡 [Suggest features](https://github.com/philiprehberger/micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+💡 [Suggest features](https://github.com/philiprehberger/ts-micro-schema/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 
 ❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
 
